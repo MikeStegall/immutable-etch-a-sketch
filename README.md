@@ -19,3 +19,7 @@ yarn start
 ```
 
 [yarn]:https://yarnpkg.com/en/
+
+## License
+
+[ISC License](LICENSE.md)

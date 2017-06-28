@@ -1,7 +1,8 @@
 {
   "name": "immutable-etch-a-sketch",
   "version": "0.1.0",
-  "private": true,
+  "repository": "https://github.com/oakmac/immutable-etch-a-sketch",
+  "license": "ISC",
   "dependencies": {
     "mori": "0.3.2",
     "react": "^15.6.1",
