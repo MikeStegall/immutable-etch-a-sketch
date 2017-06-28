@@ -75,6 +75,12 @@ function clickResetBtn () {
   window.NEXT_STATE = mori.hashMap('board', window.EMPTY_BOARD)
 }
 
+// attempt to set an invalid state
+// this should be caught by the isValidState function in the render loop
+function clickSetInvalidStateBtn () {
+  window.NEXT_STATE = 'foo'
+}
+
 function App (props) {
   const board = mori.get(props.imdata, 'board')
   const numRows = mori.count(board)
@@ -92,6 +98,7 @@ function App (props) {
     <div className='app-container'>
       <h1>Immutable Etch-a-Sketch</h1>
       <button onClick={clickResetBtn}>Reset Board</button>
+      <button onClick={clickSetInvalidStateBtn}>Set Invalid State</button>
       <div className='board'>{rows}</div>
     </div>
   )

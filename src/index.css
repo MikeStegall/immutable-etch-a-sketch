@@ -10,10 +10,10 @@ body {
 }
 
 button {
-  padding: 8px 16px;
-  font-size: 18px;
   display: inline-block;
-  margin-bottom: 30px;
+  font-size: 18px;
+  margin: 0 15px 30px 0;
+  padding: 8px 16px;
 }
 
 .board {

@@ -53,19 +53,32 @@ function render () {
   // NOTE: checking deep equality of a persistent data structure is a fast and
   //       cheap operation, even for large data structures
   if (!mori.equals(window.CURRENT_STATE, window.NEXT_STATE)) {
-    // next state is now our current state
-    window.CURRENT_STATE = window.NEXT_STATE
+    // do not perform the update if NEXT_STATE is not valid
+    if (!isValidState(window.NEXT_STATE)) {
+      console.warn('Oops! Tried to set an invalid NEXT_STATE')
+      window.NEXT_STATE = window.CURRENT_STATE
+    } else {
+      // next state is now our current state
+      window.CURRENT_STATE = window.NEXT_STATE
 
-    // you might add this new state to your history vector here...
-    // window.HISTORY = mori.conj(window.HISTORY, window.CURRENT_STATE)
+      // you might add this new state to your history vector here...
+      // window.HISTORY = mori.conj(window.HISTORY, window.CURRENT_STATE)
 
-    ReactDOM.render(App({imdata: window.CURRENT_STATE}), rootEl)
+      ReactDOM.render(App({imdata: window.CURRENT_STATE}), rootEl)
 
-    renderCount = renderCount + 1
-    // console.log('Render #' + renderCount)
+      renderCount = renderCount + 1
+      // console.log('Render #' + renderCount)
+    }
   }
 
   window.requestAnimationFrame(render)
 }
 
 window.requestAnimationFrame(render)
+
+// this is a sanity-check function so you can ensure your state is valid
+function isValidState (state) {
+  return mori.isMap(state) &&
+         mori.isVector(mori.get(state, 'board'))
+         // TODO: add more conditions here as appropriate
+}
