@@ -33,8 +33,8 @@ class Square extends MoriComponent {
     const rowIdx = mori.get(this.props.imdata, 'rowIdx')
     const colIdx = mori.get(this.props.imdata, 'colIdx')
 
-    let className = 'square '
-    if (isOn) className += 'on'
+    let className = 'square'
+    if (isOn) className += ' on'
 
     const clickFn = mori.partial(clickSquare, rowIdx, colIdx)
     const key = 'square-' + rowIdx + '-' + colIdx
