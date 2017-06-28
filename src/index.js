@@ -1,43 +1,62 @@
-// import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import mori from 'mori'
 import './index.css'
 
-// ----------------------------------------------------------------------------
-// Immutable Etch-a-Sketch
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Application State
+// -----------------------------------------------------------------------------
 
-const rootEl = document.getElementById('root')
+const numRows = 50
+const numCols = 80
 
-const numRows = 10
-const numCols = 10
+function createEmptyBoard () {
+  var board = []
+  for (let i = 0; i < numRows; i++) {
+    board[i] = []
 
-var initialBoard = []
-for (let i = 0; i < numRows; i++) {
-  initialBoard[i] = []
-
-  for (let j = 0; j < numCols; j++) {
-    initialBoard[i][j] = false
+    for (let j = 0; j < numCols; j++) {
+      board[i][j] = false
+    }
   }
+
+  return board
 }
+
+window.EMPTY_BOARD = mori.toClj(createEmptyBoard())
 
 const initialState = {
-  board: initialBoard
+  board: window.EMPTY_BOARD
 }
 
+// CURRENT_STATE is always the current state of the application
 window.CURRENT_STATE = null
+
+// NEXT_STATE is the next state the application should be in
+// Start it off with a PDS version of our initialState object.
 window.NEXT_STATE = mori.toClj(initialState)
 
 let renderCount = 0
 
+// You can track each application state using a mori vector.
 // window.HISTORY = mori.vec()
 
+// -----------------------------------------------------------------------------
+// Render Loop
+// -----------------------------------------------------------------------------
+
+const rootEl = document.getElementById('root')
+
+// constantly render on every requestAnimationFrame
 function render () {
+  // Only trigger a render if CURRENT_STATE and NEXT_STATE are different.
+  // NOTE: checking deep equality of a persistent data structure is a fast and
+  //       cheap operation, even for large data structures
   if (!mori.equals(window.CURRENT_STATE, window.NEXT_STATE)) {
     // next state is now our current state
     window.CURRENT_STATE = window.NEXT_STATE
 
+    // you might add this new state to your history vector here...
     // window.HISTORY = mori.conj(window.HISTORY, window.CURRENT_STATE)
 
     ReactDOM.render(App({imdata: window.CURRENT_STATE}), rootEl)
