@@ -18,12 +18,13 @@ class MoriComponent extends Component {
 // Square
 // -----------------------------------------------------------------------------
 
+function booleanNot (x) {
+  return !x
+}
+
 function clickSquare (rowIdx, colIdx) {
-  const currentBoard = mori.get(window.CURRENT_STATE, 'board')
-  const newBoard = mori.updateIn(currentBoard, [rowIdx, colIdx], function (isOn) {
-    return !isOn
-  })
-  const newState = mori.assoc(window.CURRENT_STATE, 'board', newBoard)
+  const currentState = window.CURRENT_STATE
+  const newState = mori.updateIn(currentState, ['board', rowIdx, colIdx], booleanNot)
   window.NEXT_STATE = newState
 }
 
