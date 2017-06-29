@@ -81,6 +81,18 @@ function clickSetInvalidStateBtn () {
   window.NEXT_STATE = 'foo'
 }
 
+function clickInvertBoardBtn () {
+  const currentBoard = mori.get(window.CURRENT_STATE, 'board')
+  const emptyVector = mori.vector()
+  const newBoardList = mori.map(function (row) {
+    const invertedRowList = mori.map(booleanNot, row)
+    return mori.into(emptyVector, invertedRowList)
+  }, currentBoard)
+  const newBoardVector = mori.into(emptyVector, newBoardList)
+
+  window.NEXT_STATE = mori.assoc(window.CURRENT_STATE, 'board', newBoardVector)
+}
+
 function App (props) {
   const board = mori.get(props.imdata, 'board')
   const numRows = mori.count(board)
@@ -99,6 +111,7 @@ function App (props) {
       <h1>Immutable Etch-a-Sketch</h1>
       <button onClick={clickResetBtn}>Reset Board</button>
       <button onClick={clickSetInvalidStateBtn}>Set Invalid State</button>
+      <button onClick={clickInvertBoardBtn}>Invert Board</button>
       <div className='board'>{rows}</div>
     </div>
   )
